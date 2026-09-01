@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { createClient } from "@/lib/supabase/client";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { trackEvent } from "@/lib/analytics/track";
@@ -13,17 +12,22 @@ export function NewsletterForm() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStatus("loading");
-    const supabase = createClient();
-    const { error } = await supabase
-      .from("newsletter_subscribers")
-      .upsert({ email, subscribed: true }, { onConflict: "email" });
 
-    if (error) {
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      if (!res.ok) {
+        setStatus("error");
+        return;
+      }
+      trackEvent("newsletter_signup", { email });
+      setStatus("done");
+    } catch {
       setStatus("error");
-      return;
     }
-    trackEvent("newsletter_signup", { email });
-    setStatus("done");
   }
 
   if (status === "done") {
@@ -42,6 +46,9 @@ export function NewsletterForm() {
       <Button type="submit" disabled={status === "loading"}>
         {status === "loading" ? "..." : "Subscribe"}
       </Button>
+      {status === "error" && (
+        <p className="text-xs text-red-600">Something went wrong — please try again.</p>
+      )}
     </form>
   );
 }
