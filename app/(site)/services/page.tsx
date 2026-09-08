@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { PageHeader } from "@/components/site/page-header";
 import { CtaSection } from "@/components/site/cta-section";
 import { ViewTracker } from "@/components/analytics/view-tracker";
+import { RevealGroup, RevealItem } from "@/components/site/reveal";
 import type { Service } from "@/lib/types/database";
 
 export const metadata: Metadata = {
@@ -47,11 +48,11 @@ export default async function ServicesPage() {
               Services will appear here once published from the admin dashboard.
             </p>
           ) : (
-            <div className="grid gap-6 lg:grid-cols-2">
+            <RevealGroup className="grid gap-6 lg:grid-cols-2">
               {services.map((service) => {
                 const Icon = getIcon(service.icon);
                 return (
-                  <div key={service.id} className="rounded-lg border border-border p-8">
+                  <RevealItem key={service.id} className="card-soft p-8">
                     <span className="flex h-12 w-12 items-center justify-center rounded-md bg-accent-100 text-accent-600">
                       <Icon className="h-6 w-6" />
                     </span>
@@ -72,10 +73,10 @@ export default async function ServicesPage() {
                         ))}
                       </ul>
                     )}
-                  </div>
+                  </RevealItem>
                 );
               })}
-            </div>
+            </RevealGroup>
           )}
         </div>
       </section>

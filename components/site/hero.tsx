@@ -2,106 +2,158 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { AreaChart, Area, ResponsiveContainer } from "recharts";
-import { ArrowRight, Users, TrendingUp, Workflow, Target } from "lucide-react";
+import {
+  ArrowRight, Paperclip, Languages, Mic, ImagePlus, Plus,
+  Home, Target, Briefcase, FileText, Clock, Settings, ArrowUp,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { trackEvent } from "@/lib/analytics/track";
 import type { SiteSettings } from "@/lib/settings";
 
-const TRUST_INDICATORS = ["Marketing", "Technology", "AI Automation", "Growth"];
+const AVATAR_INITIALS = ["A", "F", "M"];
 
-const trendData = [
-  { v: 12 }, { v: 18 }, { v: 15 }, { v: 24 }, { v: 22 }, { v: 30 }, { v: 28 }, { v: 38 },
-];
+const SIDEBAR_ICONS = [Plus, Home, Target, Briefcase, FileText, Clock];
 
-const STATS = [
-  { icon: Users, label: "Website Visitors", value: "12,480", delta: "+18%" },
-  { icon: Target, label: "Qualified Leads", value: "312", delta: "+24%" },
-  { icon: TrendingUp, label: "Conversion Rate", value: "6.4%", delta: "+1.2pt" },
-  { icon: Workflow, label: "Workflows Automated", value: "9", delta: "live" },
+const FEATURE_TILES = [
+  {
+    icon: Paperclip,
+    title: "Bring your files",
+    desc: "Drop in your brand assets, docs and data — we work with what you already have.",
+  },
+  {
+    icon: Languages,
+    title: "Speak your market",
+    desc: "Campaigns and copy tuned to how your customers actually search and shop.",
+  },
+  {
+    icon: Mic,
+    title: "Tell us the problem",
+    desc: "One call is enough. No lengthy onboarding forms required.",
+  },
+  {
+    icon: ImagePlus,
+    title: "Bring your visuals",
+    desc: "We slot straight into your existing brand, or build one from scratch.",
+  },
 ];
 
 export function Hero({ settings }: { settings: SiteSettings }) {
   return (
-    <section className="relative overflow-hidden border-b border-border bg-navy text-white">
-      <div className="container-page grid gap-14 py-20 lg:grid-cols-2 lg:items-center lg:py-28">
+    <section className="gradient-blob-bg overflow-hidden bg-white pb-0 pt-16 lg:pt-24">
+      <div className="container-page flex flex-col items-center text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="pill"
+        >
+          <span className="flex -space-x-2">
+            {AVATAR_INITIALS.map((letter, i) => (
+              <span
+                key={letter}
+                className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-navy text-[10px] font-semibold text-white"
+                style={{ zIndex: AVATAR_INITIALS.length - i }}
+              >
+                {letter}
+              </span>
+            ))}
+          </span>
+          40+ businesses growing with us
+        </motion.div>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.08 }}
+          className="mt-7 max-w-3xl text-balance text-4xl font-semibold leading-[1.08] tracking-tight text-navy sm:text-5xl lg:text-[3.4rem]"
+        >
+          {settings.hero_headline}
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55, delay: 0.16 }}
+          className="mt-5 max-w-xl text-balance text-lg leading-relaxed text-gray-600"
+        >
+          {settings.hero_description}
+        </motion.p>
+
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.55, delay: 0.24 }}
+          className="mt-8 flex flex-wrap justify-center gap-4"
         >
-          <div className="mb-6 flex flex-wrap gap-2">
-            {TRUST_INDICATORS.map((t) => (
-              <span
-                key={t}
-                className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-gray-200"
-              >
-                {t}
-              </span>
-            ))}
-          </div>
-
-          <h1 className="text-balance text-4xl font-semibold leading-[1.1] tracking-tight sm:text-5xl lg:text-[3.4rem]">
-            {settings.hero_headline}
-          </h1>
-
-          <p className="mt-6 max-w-xl text-balance text-lg leading-relaxed text-gray-300">
-            {settings.hero_description}
-          </p>
-
-          <div className="mt-9 flex flex-wrap gap-4">
-            <Link href="/consultation" onClick={() => trackEvent("cta_click", { location: "hero_primary" })}>
-              <Button size="lg" className="group">
-                {settings.hero_cta_primary}
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </Button>
-            </Link>
-            <Link href="/work" onClick={() => trackEvent("cta_click", { location: "hero_secondary" })}>
-              <Button size="lg" variant="outline" className="border-white/20 text-white hover:bg-white/10">
-                {settings.hero_cta_secondary}
-              </Button>
-            </Link>
-          </div>
+          <Link href="/consultation" onClick={() => trackEvent("cta_click", { location: "hero_primary" })}>
+            <Button size="lg" variant="dark" className="group">
+              {settings.hero_cta_primary}
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            </Button>
+          </Link>
+          <Link href="/work" onClick={() => trackEvent("cta_click", { location: "hero_secondary" })}>
+            <Button size="lg" variant="outline">
+              {settings.hero_cta_secondary}
+            </Button>
+          </Link>
         </motion.div>
 
+        {/* Floating product card */}
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.15 }}
-          className="rounded-xl border border-white/10 bg-white/[0.04] p-6 shadow-2xl backdrop-blur"
+          transition={{ duration: 0.7, delay: 0.32, ease: [0.21, 0.47, 0.32, 0.98] }}
+          className="card-float relative mt-14 flex w-full max-w-3xl overflow-hidden text-left lg:mt-16"
         >
-          <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-gray-300">Growth Dashboard</span>
-            <span className="flex items-center gap-1.5 rounded-full bg-accent/15 px-2.5 py-1 text-xs font-medium text-accent">
-              <span className="h-1.5 w-1.5 rounded-full bg-accent" /> Live
+          <div className="hidden w-14 flex-col items-center gap-4 border-r border-border bg-gray-50 py-6 sm:flex">
+            {SIDEBAR_ICONS.map((Icon, i) => (
+              <span
+                key={i}
+                className={`flex h-8 w-8 items-center justify-center rounded-md ${i === 0 ? "bg-navy text-white" : "text-gray-400"}`}
+              >
+                <Icon className="h-4 w-4" />
+              </span>
+            ))}
+            <span className="mt-auto flex h-8 w-8 items-center justify-center rounded-md text-gray-400">
+              <Settings className="h-4 w-4" />
             </span>
           </div>
 
-          <div className="mt-5 h-24 w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={trendData}>
-                <defs>
-                  <linearGradient id="heroTrend" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#16a34a" stopOpacity={0.5} />
-                    <stop offset="100%" stopColor="#16a34a" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <Area type="monotone" dataKey="v" stroke="#4ade80" strokeWidth={2} fill="url(#heroTrend)" />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-
-          <div className="mt-5 grid grid-cols-2 gap-3">
-            {STATS.map((s) => (
-              <div key={s.label} className="rounded-lg border border-white/10 bg-white/[0.03] p-4">
-                <s.icon className="h-4 w-4 text-accent" />
-                <p className="mt-2 text-xl font-semibold">{s.value}</p>
-                <p className="text-xs text-gray-400">{s.label}</p>
-                <p className="mt-1 text-[11px] font-medium text-accent">{s.delta}</p>
+          <div className="flex-1 p-5 sm:p-7">
+            <div className="flex items-center gap-3">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent-100 text-accent-600">
+                <Target className="h-5 w-5" />
+              </span>
+              <div>
+                <p className="text-base font-semibold text-navy">Hi, let&apos;s grow your business.</p>
+                <p className="text-sm text-gray-500">Tell us where you&apos;re starting from.</p>
               </div>
-            ))}
+            </div>
+
+            <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {FEATURE_TILES.map((tile) => (
+                <div key={tile.title} className="rounded-xl border border-border p-4">
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm font-semibold text-navy">{tile.title}</p>
+                    <span className="flex h-7 w-7 items-center justify-center rounded-md bg-gray-100 text-gray-500">
+                      <tile.icon className="h-3.5 w-3.5" />
+                    </span>
+                  </div>
+                  <p className="mt-1.5 text-xs leading-relaxed text-gray-500">{tile.desc}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-4 flex items-center gap-2 rounded-full border border-border bg-gray-50 px-4 py-2.5">
+              <span className="flex-1 text-sm text-gray-400">Ask about your growth plan…</span>
+              <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-navy text-white">
+                <ArrowUp className="h-3.5 w-3.5" />
+              </span>
+            </div>
           </div>
         </motion.div>
+
+        <div className="h-16 lg:h-20" />
       </div>
     </section>
   );

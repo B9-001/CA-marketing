@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { PageHeader } from "@/components/site/page-header";
 import { CtaSection } from "@/components/site/cta-section";
 import { Badge } from "@/components/ui/badge";
+import { RevealGroup, RevealItem } from "@/components/site/reveal";
 import type { Project } from "@/lib/types/database";
 
 export const metadata: Metadata = {
@@ -41,12 +42,12 @@ export default async function WorkPage() {
               Projects will appear here once published from the admin dashboard.
             </p>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <RevealGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {projects.map((project) => (
+                <RevealItem key={project.id}>
                 <Link
-                  key={project.id}
                   href={`/work/${project.slug}`}
-                  className="group overflow-hidden rounded-lg border border-border bg-white transition-shadow hover:shadow-md"
+                  className="card-soft group block overflow-hidden"
                 >
                   <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-100">
                     {project.cover_image ? (
@@ -79,8 +80,9 @@ export default async function WorkPage() {
                     )}
                   </div>
                 </Link>
+                </RevealItem>
               ))}
-            </div>
+            </RevealGroup>
           )}
         </div>
       </section>

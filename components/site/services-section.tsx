@@ -1,6 +1,7 @@
 import Link from "next/link";
 import * as Icons from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { Reveal, RevealGroup, RevealItem } from "@/components/site/reveal";
 import type { Service } from "@/lib/types/database";
 
 function getIcon(name: string | null): LucideIcon {
@@ -16,7 +17,7 @@ export function ServicesSection({ services }: { services: Service[] }) {
   return (
     <section className="section-y">
       <div className="container-page">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <Reveal className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <h2 className="text-3xl font-semibold tracking-tight text-navy sm:text-4xl">
               What we do
@@ -29,13 +30,13 @@ export function ServicesSection({ services }: { services: Service[] }) {
           <Link href="/services" className="text-sm font-medium text-accent hover:underline">
             View all services →
           </Link>
-        </div>
+        </Reveal>
 
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <RevealGroup className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service) => {
             const Icon = getIcon(service.icon);
             return (
-              <div key={service.id} className="rounded-lg border border-border p-6">
+              <RevealItem key={service.id} className="card-soft p-6">
                 <span className="flex h-11 w-11 items-center justify-center rounded-md bg-accent-100 text-accent-600">
                   <Icon className="h-5 w-5" />
                 </span>
@@ -43,10 +44,10 @@ export function ServicesSection({ services }: { services: Service[] }) {
                 <p className="mt-1.5 text-sm leading-relaxed text-gray-600">
                   {service.summary}
                 </p>
-              </div>
+              </RevealItem>
             );
           })}
-        </div>
+        </RevealGroup>
       </div>
     </section>
   );

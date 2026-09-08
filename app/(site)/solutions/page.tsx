@@ -3,6 +3,7 @@ import { Users, Globe, Workflow, Bot, BarChart3 } from "lucide-react";
 import { PageHeader } from "@/components/site/page-header";
 import { CtaSection } from "@/components/site/cta-section";
 import { Button } from "@/components/ui/button";
+import { RevealGroup, RevealItem } from "@/components/site/reveal";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -74,11 +75,11 @@ export default function SolutionsPage() {
       />
 
       <section className="section-y">
-        <div className="container-page space-y-6">
+        <RevealGroup className="container-page space-y-6">
           {SOLUTIONS.map((s) => (
-            <div
+            <RevealItem
               key={s.title}
-              className="grid gap-6 rounded-lg border border-border p-8 lg:grid-cols-[auto_1fr_auto] lg:items-center"
+              className="card-soft grid gap-6 p-8 lg:grid-cols-[auto_1fr_auto] lg:items-center"
             >
               <span className="flex h-14 w-14 items-center justify-center rounded-md bg-navy text-white">
                 <s.icon className="h-6 w-6" />
@@ -97,9 +98,9 @@ export default function SolutionsPage() {
               <Link href="/consultation" className="lg:justify-self-end">
                 <Button variant="outline">Talk to us</Button>
               </Link>
-            </div>
+            </RevealItem>
           ))}
-        </div>
+        </RevealGroup>
       </section>
 
       <CtaSection location="solutions_page" />

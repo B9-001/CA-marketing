@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { trackEvent } from "@/lib/analytics/track";
+import { Reveal } from "@/components/site/reveal";
 
 export function CtaSection({
   title = "Ready to turn your digital presence into a growth engine?",
@@ -17,7 +18,7 @@ export function CtaSection({
   return (
     <section className="section-y">
       <div className="container-page">
-        <div className="rounded-2xl bg-navy px-8 py-16 text-center text-white sm:px-16">
+        <Reveal className="rounded-2xl bg-navy px-8 py-16 text-center text-white sm:px-16">
           <h2 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
             {title}
           </h2>
@@ -30,7 +31,7 @@ export function CtaSection({
               </Button>
             </Link>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

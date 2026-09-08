@@ -1,4 +1,5 @@
 import { Star } from "lucide-react";
+import { Reveal, RevealGroup, RevealItem } from "@/components/site/reveal";
 import type { Testimonial } from "@/lib/types/database";
 
 export function TestimonialsSection({ testimonials }: { testimonials: Testimonial[] }) {
@@ -7,13 +8,15 @@ export function TestimonialsSection({ testimonials }: { testimonials: Testimonia
   return (
     <section className="section-y bg-gray-50">
       <div className="container-page">
-        <h2 className="text-3xl font-semibold tracking-tight text-navy sm:text-4xl">
-          What clients say
-        </h2>
+        <Reveal>
+          <h2 className="text-3xl font-semibold tracking-tight text-navy sm:text-4xl">
+            What clients say
+          </h2>
+        </Reveal>
 
-        <div className="mt-12 grid gap-5 lg:grid-cols-3">
+        <RevealGroup className="mt-12 grid gap-5 lg:grid-cols-3">
           {testimonials.map((t) => (
-            <div key={t.id} className="rounded-lg border border-border bg-white p-6">
+            <RevealItem key={t.id} className="card-soft p-6">
               {t.rating && (
                 <div className="flex gap-0.5 text-accent">
                   {Array.from({ length: 5 }).map((_, i) => (
@@ -40,9 +43,9 @@ export function TestimonialsSection({ testimonials }: { testimonials: Testimonia
                   </p>
                 </div>
               </div>
-            </div>
+            </RevealItem>
           ))}
-        </div>
+        </RevealGroup>
       </div>
     </section>
   );
